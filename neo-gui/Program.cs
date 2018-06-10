@@ -103,7 +103,8 @@ namespace Neo
             if (File.Exists(PeerStatePath))
                 using (FileStream fs = new FileStream(PeerStatePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    LocalNode.LoadState(fs);
+                    if (fs.Length > 0)
+                        LocalNode.LoadState(fs);
                 }
             using (Blockchain.RegisterBlockchain(new LevelDBBlockchain(Settings.Default.Paths.Chain)))
             using (LocalNode = new LocalNode())
